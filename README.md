@@ -5,7 +5,7 @@ IIT Bombay, Course Progect
 <br>
 Author- RASHMI MEENA
 
-Code_1 : 
+Code_1 : Band Diagram
 
     import numpy as np
     import scipy.linalg as la
@@ -50,7 +50,7 @@ Code_1 :
     plt.grid(True)
     plt.show()
     
-Code_2 : 
+Code_2 : Winding the origin for different parameter value
 
     import matplotlib.pyplot as plt
     import numpy as np
