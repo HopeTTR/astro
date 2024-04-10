@@ -1,7 +1,7 @@
 # Topology-in-Condensed-Matter_code
 Public
 
-IIT Bombay, Course Progect
+IIT Bombay, Course Project
 <br>
 Author- RASHMI MEENA
 
