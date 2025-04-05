@@ -1,0 +1,28 @@
+import os  # Module to interact with the operating system (file paths, directories, etc.)
+import shutil  # Module to perform high-level file operations like copying and deleting
+import numpy as np  # NumPy library, used here for generating random numbers
+
+# Define the path to the template MESA project directory
+template_path = "/Users/hope/Downloads/MSc_project/mesa_projects/binary_pop/template"
+
+# Define the path where binary run directories will be created
+runs_path = "/Users/hope/Downloads/MSc_project/mesa_projects/binary_pop/runs"
+
+# Set the number of binary systems to create
+n_binary = 10
+
+# Loop over the number of binaries to generate bin01, bin02, ..., bin10
+for i in range(1, n_binary + 1):
+    bin_name = f"bin{i:02d}"  # Create a binary folder name with leading zero, e.g., bin01
+    bin_path = os.path.join(runs_path, bin_name)  # Create the full path to this binary folder
+
+    if os.path.exists(bin_path):  # Check if the folder already exists
+        shutil.rmtree(bin_path)  # If it exists, delete it to start fresh
+
+    shutil.copytree(template_path, bin_path)  # Copy the template project folder to the new binary folder
+
+    m1 = np.random.uniform(0.8, 8)  # Generate a random primary star mass between 0.8 and 8 solar masses
+    m2 = np.random.uniform(0.8, m1)  # Generate a secondary star mass between 0.8 and m1 (so m2 <= m1)
+    period = np.random.uniform(1, 100)  # Generate a random orbital period between 1 and 100 days
+
+    print(m1, m2, period)  # Print the generated values for verification
