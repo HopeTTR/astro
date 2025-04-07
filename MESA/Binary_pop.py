@@ -1,6 +1,7 @@
 import os  # Module to work with file system paths and directories
 import shutil  # Module to copy or delete entire folders and files
 import numpy as np  # NumPy library used for generating random numbers
+import subprocess  # Module to run shell commands from Python
 
 # Path to the MESA project template directory
 #template_path = "/Users/hope/Downloads/MSc_project/mesa_projects/binary_pop/template"
@@ -10,7 +11,7 @@ import numpy as np  # NumPy library used for generating random numbers
 
 template_path = "/home/IITB/CompnalAstrphyNRelvity/23n0315/MESA/mesa-24.08.1/binary_pop/template"
 runs_path = "/home/IITB/CompnalAstrphyNRelvity/23n0315/MESA/mesa-24.08.1/binary_pop/runs"
-slurm_script_path = os.path.join(runs_path, "run_all_bins.slurm")
+#slurm_script_path = os.path.join(runs_path, "run_all_bins.slurm")
 
 
 # Number of binary systems you want to simulate
@@ -20,7 +21,8 @@ n_binary = 10
 for i in range(1, n_binary + 1):
     bin_name = f"bin{i:02d}"  # Format binary folder name with 2 digits, e.g., 'bin01'
     bin_path = os.path.join(runs_path, bin_name)  # Construct the full path for this binary run
-
+    sh_script_path = os.path.join(bin_path, "binary_job.sh")
+    
     if os.path.exists(bin_path):  # Check if the directory already exists
         shutil.rmtree(bin_path)  # If it exists, delete it to avoid conflicts
 
