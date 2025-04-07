@@ -3,10 +3,15 @@ import shutil  # Module to copy or delete entire folders and files
 import numpy as np  # NumPy library used for generating random numbers
 
 # Path to the MESA project template directory
-template_path = "/Users/hope/Downloads/MSc_project/mesa_projects/binary_pop/template"
+#template_path = "/Users/hope/Downloads/MSc_project/mesa_projects/binary_pop/template"
 
 # Path where new binary run directories will be created
-runs_path = "/Users/hope/Downloads/MSc_project/mesa_projects/binary_pop/runs"
+#runs_path = "/Users/hope/Downloads/MSc_project/mesa_projects/binary_pop/runs"
+
+template_path = "/home/IITB/CompnalAstrphyNRelvity/23n0315/MESA/mesa-24.08.1/binary_pop/template"
+runs_path = "/home/IITB/CompnalAstrphyNRelvity/23n0315/MESA/mesa-24.08.1/binary_pop/runs"
+slurm_script_path = os.path.join(runs_path, "run_all_bins.slurm")
+
 
 # Number of binary systems you want to simulate
 n_binary = 10
@@ -46,18 +51,47 @@ for i in range(1, n_binary + 1):
             else:
                 file.write(line)  # Otherwise, write the line unchanged
 
-    # First compile the MESA binary project using ./mk
-    try:
-        subprocess.run(["./mk"], cwd=bin_path, check=True)  # Compile in the binXX directory
-        print(f"Compilation successful in {bin_name}")
-    except subprocess.CalledProcessError as e:
-        print(f"Compilation failed in {bin_name}: {e}")
-        continue  # Skip running ./rn if compilation fails
+# -----------------------------------------#
 
-    # Then run the compiled binary using ./rn
+    with open(sh_script_path, "w") as f:
+        f.write(f"""#!/bin/bash
+#SBATCH --job-name=MESA_Binary
+#SBATCH --output=mesa_binary_out.log
+#SBATCH --error=mesa_binary_err.log
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=8
+#SBATCH --mem=16G
+#SBATCH --time=24:00:00
+#SBATCH --partition=small
+
+# Load your Conda environment (uncomment if needed)
+# module load conda
+# conda activate mesa_env  # Replace with your actual MESA conda environment
+
+echo "Submitting MESA binary simulation..."
+
+cd {bin_path}  # Navigate to the specific binary run directory
+./mk
+./rn  # Run the binary simulation
+
+echo "Simulation completed."
+""")
+
+        print(f"Created binary_job.sh in {bin_name}")
+
+#-------------------------------------#
+    job_script = os.path.join(bin_path, "binary_job.sh")  # Full path to the SLURM job script inside that bin folder
+
+    # Check if binary_job.sh exists in the current bin folder
+    if not os.path.isfile(job_script):
+        print(f" Job script missing in {bin_name}, skipping...")  # Warn if the script doesn't exist
+        continue  # Skip this bin and move to the next
+
+    # Try submitting the job using sbatch from inside the bin directory
     try:
-        subprocess.run(["./rn"], cwd=bin_path, check=True)  # Run simulation
-        print(f"Simulation started in {bin_name}")
+        subprocess.run(["sbatch", "binary_job.sh"], cwd=bin_path, check=True)  # Submit the job via sbatch inside the binXX directory
+        print(f" Submitted job for {bin_name}")  # Print success message
     except subprocess.CalledProcessError as e:
-        print(f"Error running simulation in {bin_name}: {e}")
+        print(f" Submission failed for {bin_name}: {e}")  # Print error message if sbatch fails
 
