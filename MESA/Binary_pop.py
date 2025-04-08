@@ -53,6 +53,15 @@ for i in range(1, n_binary + 1):
             else:
                 file.write(line)  # Otherwise, write the line unchanged
 
+    # First compile the MESA binary project using ./mk
+    try:
+        subprocess.run(["./mk"], cwd=bin_path, check=True)  # Compile in the binXX directory
+        print(f"Compilation successful in {bin_name}")
+    except subprocess.CalledProcessError as e:
+        print(f"Compilation failed in {bin_name}: {e}")
+        continue  # Skip running ./rn if compilation fails
+
+
 # -----------------------------------------#
 
     with open(sh_script_path, "w") as f:
@@ -74,7 +83,7 @@ for i in range(1, n_binary + 1):
 echo "Submitting MESA binary simulation..."
 
 cd {bin_path}  # Navigate to the specific binary run directory
-./mk
+
 ./rn  # Run the binary simulation
 
 echo "Simulation completed."
