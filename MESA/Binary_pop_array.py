@@ -60,7 +60,7 @@ for i in range(1, n_binary + 1):
     except subprocess.CalledProcessError as e:
         print(f"Compilation failed in {bin_name}: {e}")
         continue  # Skip running ./rn if compilation fails
-
+'''
 
 # -----------------------------------------#
 
@@ -98,3 +98,4 @@ echo "Simulation completed."
     if not os.path.isfile(job_script):
         print(f" Job script missing in {bin_name}, skipping...")  # Warn if the script doesn't exist
         continue  # Skip this bin and move to the next
+        '''
