@@ -82,7 +82,7 @@ def generate_CE_binary():
 
 # Paths (adjust to your setup)
 template_path    = "/home/IITB/CompnalAstrphyNRelvity/23n0315/MESA/mesa-24.08.1/binary_pop/template"
-runs_path        = "/home/IITB/CompnalAstrphyNRelvity/23n0315/MESA/mesa-24.08.1/binary_pop/runs"
+runs_path        = "/home/IITB/CompnalAstrphyNRelvity/23n0315/MESA/mesa-24.08.1/binary_pop/runs3"
 
 # How many binaries to set up
 n_binary = 10
