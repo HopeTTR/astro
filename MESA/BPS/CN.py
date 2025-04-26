@@ -82,9 +82,9 @@ with open("MC_CN.json", "w") as f:
 
 
 # # ---------------------- 2) use first 20 for this batch ------------------
-# tuples = tuples_all[:20]  # bin01 … bin20
+tuples = tuples_all[:20]  # bin01 … bin20
 
-# ---------------- 2) select first 20 with 1–5-day periods -------------
+'''# ---------------- 2) select first 20 with 1–5-day periods -------------
 P_MIN, P_MAX = 1.0, 5.0     # days
 filtered = [t for t in tuples_all if P_MIN <= t[2] <= P_MAX]
 
@@ -93,7 +93,7 @@ if len(filtered) < 20:
           "bins will be fewer than 20.")
 
 tuples = filtered[:20]      # these feed bin01…bin20
-
+'''
 
 # ---------------------- 3) loop over those 20 systems -------------------
 for i, (m1, m2, period) in enumerate(tuples, start=1):
