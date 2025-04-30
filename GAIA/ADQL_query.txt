@@ -1,0 +1,6 @@
+select source_id, ra, dec, parallax, parallax_error, pmra, pmdec, pmra_error, pmdec_error, phot_g_mean_mag
+from gaiaedr3.gaia_source
+where parallax > 1
+and parallax_over_error > 5
+and parallax_error < 2
+and phot_g_mean_mag is not null
